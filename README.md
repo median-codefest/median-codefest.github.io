@@ -32,14 +32,14 @@ London, SW7 2AZ
 &nbsp;&nbsp;&nbsp;10:05 Overview of CodeFest: guidelines, required output, available resources, timelines  
 &nbsp;&nbsp;&nbsp;10:30 Setting the challenges  
 &nbsp;&nbsp;&nbsp;11:15 Group work – introductions, planning  
-&nbsp;&nbsp;&nbsp;*13:00 Lunch*  
+&nbsp;&nbsp;&nbsp;13:00 Lunch  
 &nbsp;&nbsp;&nbsp;13:45 Group work  
 &nbsp;&nbsp;&nbsp;17:00 Un-official close. Teams can continue to work, pizza will be provided
 
 #### Day 2 - Friday, Septemeber 22
-&nbsp;&nbsp;&nbsp;*08:30 Breakfast*  
+&nbsp;&nbsp;&nbsp;08:30 Breakfast  
 &nbsp;&nbsp;&nbsp;09:00 Group work  
-&nbsp;&nbsp;&nbsp;*13:00 Lunch*  
+&nbsp;&nbsp;&nbsp;13:00 Lunch  
 &nbsp;&nbsp;&nbsp;15:00 Presentations  
 &nbsp;&nbsp;&nbsp;16:30 Summary & Conclusions  
 &nbsp;&nbsp;&nbsp;17:00 Close
