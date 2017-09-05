@@ -46,5 +46,5 @@ London, SW7 2AZ
 
 ## Resources
 
-Slack: https://median-codefest.slack.com
-GitHub: https://github.com/median-codefest
+* Slack: https://median-codefest.slack.com
+* GitHub: https://github.com/median-codefest
