@@ -14,7 +14,7 @@ Teams will work on one of two main challenges:
 
 ## Venue
 
-The CodeFest is held on *21st and 22nd of September 2017* at Imperial College London.
+The CodeFest is held on **21st and 22nd of September 2017** at Imperial College London.
 
 #### Address
 Imperial College London  
@@ -43,5 +43,5 @@ London, SW7 2AZ
 
 ## Resources
 
-* Slack: https://median-codefest.slack.com
-* GitHub: https://github.com/median-codefest
+* [Slack](https://median-codefest.slack.com)
+* [GitHub](https://github.com/median-codefest)
