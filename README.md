@@ -6,13 +6,11 @@ The CodeFest is a creative, social, and educational event with strong emphasis o
 
 ### Challenges
 
-Teams will work on one of two main challenges:
+Teams can use [Slack](https://median-codefest.slack.com) to share ideas and coordinate tasks while working on one of two main challenges:
 
 &nbsp;&nbsp;**[AI for Brain Scans](https://median-codefest.github.io/AIBrainScans)**: Exploring deep learning for analysing medical images of the brain.
 
 &nbsp;&nbsp;**[AnatomyVR](https://median-codefest.github.io/AnatomyVR)**: Virtual reality for 3D interactive visualisation of human anatomy.
-
-We will use [Slack](https://median-codefest.slack.com) to share ideas and coordinate tasks.
 
 ## Venue
 
