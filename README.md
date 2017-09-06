@@ -43,5 +43,20 @@ London, SW7 2AZ
 
 ## Resources
 
+#### General
 * [Slack](https://median-codefest.slack.com)
 * [GitHub](https://github.com/median-codefest)
+
+#### AI for Brain Scans
+* Example Python code
+* Brain image database
+
+#### AnatomyVR
+* Example C++ code
+* Anatomical mesh models (STL format)
+* Oculus Rift & Touch Bundle
+* Oculus Rift DK2
+* Google Cardboard
+* 2x Leap Motion
+* ZED Camera
+* Intel RealSense SR300
