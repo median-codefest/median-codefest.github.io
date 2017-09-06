@@ -2,7 +2,7 @@
 
 The 1st MedIAN CodeFest aims to bring together young researchers with an Engineering and Computer Science background with leading scientists from Biomedical and Clinical disciplines to collaborate intensively over two days on medical image analysis challenges. 
 
-CodeFest is a creative, social, and educational event with strong emphasis on multidisciplinary exchange with the ambition to generate new and exciting scientific insights.
+The CodeFest is a creative, social, and educational event with strong emphasis on multidisciplinary exchange with the ambition to generate new and exciting scientific insights.
 
 ### Challenges
 
@@ -11,6 +11,8 @@ Teams will work on one of two main challenges:
 &nbsp;&nbsp;**[AI for Brain Scans](https://median-codefest.github.io/AIBrainScans)**: Exploring deep learning for analysing medical images of the brain.
 
 &nbsp;&nbsp;**[AnatomyVR](https://median-codefest.github.io/AnatomyVR)**: Virtual reality for 3D interactive visualisation of human anatomy.
+
+We will use [Slack](https://median-codefest.slack.com) to share ideas and coordinate tasks.
 
 ## Venue
 
@@ -40,8 +42,3 @@ London, SW7 2AZ
 &nbsp;&nbsp;&nbsp;15:00 Presentations  
 &nbsp;&nbsp;&nbsp;16:30 Summary & Conclusions  
 &nbsp;&nbsp;&nbsp;17:00 Close
-
-## Useful Links
-
-* [Slack](https://median-codefest.slack.com)
-* [GitHub](https://github.com/median-codefest)
