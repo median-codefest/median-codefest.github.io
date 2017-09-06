@@ -41,7 +41,7 @@ London, SW7 2AZ
 &nbsp;&nbsp;&nbsp;16:30 Summary & Conclusions  
 &nbsp;&nbsp;&nbsp;17:00 Close
 
-## Resources
+## Useful Links
 
 * [Slack](https://median-codefest.slack.com)
 * [GitHub](https://github.com/median-codefest)
