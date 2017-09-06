@@ -12,4 +12,8 @@
 * [ZED Camera](https://www.stereolabs.com/)
 * [Intel RealSense SR300](https://click.intel.com/intelrealsense-developer-kit-featuring-sr300.html)
 * [Intel RealSense R200](https://click.intel.com/intelr-realsensetm-developer-kit-r200-2452.html)
+
+
+#### Useful Links
+* [CodeFest Home](https://median-codefest.github.io/)
 * [Slack](https://median-codefest.slack.com)
