@@ -1,6 +1,6 @@
 ## About
 
-The 1st MedIAN CodeFest aims to bring together young researchers with an Engineering and Computer Science background with leading scientists from Biomedical and Clinical disciplines to collaborate intensively over two days on medical image analysis challenges. 
+The 1st [MedIAN](https://median.ac.uk/) CodeFest aims to bring together young researchers with an Engineering and Computer Science background with leading scientists from Biomedical and Clinical disciplines to collaborate intensively over two days on medical image analysis challenges. 
 
 The CodeFest is a creative, social, and educational event with strong emphasis on multidisciplinary exchange with the ambition to generate new and exciting scientific insights.
 
