@@ -23,9 +23,34 @@ limitations under the License.
 /// and also the GL support is not quite fully there yet, hence the VR
 /// is not that great!
 
+#include <stdio.h>
+#include <io.h>
+#include <fcntl.h>
+#include <windows.h>
+
+
+
+
+
 #include "Win32_GLAppUtil.h"
 
 // Include the Oculus SDK
+#if defined(_WIN32)
+#define GLFW_EXPOSE_NATIVE_WIN32
+#define GLFW_EXPOSE_NATIVE_WGL
+#define OVR_OS_WIN32
+#elif defined(__APPLE__)
+#define GLFW_EXPOSE_NATIVE_COCOA
+#define GLFW_EXPOSE_NATIVE_NSGL
+#define OVR_OS_MAC
+#elif defined(__linux__)
+#define GLFW_EXPOSE_NATIVE_X11
+#define GLFW_EXPOSE_NATIVE_GLX
+#define OVR_OS_LINUX
+#endif
+#include <GLFW/glfw3.h>
+#include <GLFW/glfw3native.h>
+
 #include "OVR_CAPI_GL.h"
 
 #if defined(_WIN32)
@@ -36,6 +61,8 @@ limitations under the License.
 
 using namespace OVR;
 
+std::vector<Vector3f> vertices;
+std::vector<Vector3i> polygons;
 
 static ovrGraphicsLuid GetDefaultAdapterLuid()
 {
@@ -179,7 +206,7 @@ static bool MainLoop(bool retryCreate)
 
             // Animate the cube
             static float cubeClock = 0;
-            roomScene->Models[0]->Pos = Vector3f(9 * (float)sin(cubeClock), 3, 9 * (float)cos(cubeClock += 0.015f));
+            //roomScene->Models[0]->Pos = Vector3f(9 * (float)sin(cubeClock), 3, 9 * (float)cos(cubeClock += 0.015f));
 
             // Call ovr_GetRenderDesc each frame to get the ovrEyeRenderDesc, as the returned values (e.g. HmdToEyePose) may change at runtime.
             ovrEyeRenderDesc eyeRenderDesc[2];
@@ -281,12 +308,41 @@ Done:
 //-------------------------------------------------------------------------------------
 int WINAPI WinMain(HINSTANCE hinst, HINSTANCE, LPSTR, int)
 {
+
+	AllocConsole();
+	SetConsoleTitleA("ConsoleTitle");
+	typedef struct { char* _ptr; int _cnt; char* _base; int _flag; int _file; int _charbuf; int _bufsiz; char* _tmpfname; } FILE_COMPLETE;
+	*(FILE_COMPLETE*)stdout = *(FILE_COMPLETE*)_fdopen(_open_osfhandle((long)GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT), "w");
+	*(FILE_COMPLETE*)stderr = *(FILE_COMPLETE*)_fdopen(_open_osfhandle((long)GetStdHandle(STD_ERROR_HANDLE), _O_TEXT), "w");
+	*(FILE_COMPLETE*)stdin = *(FILE_COMPLETE*)_fdopen(_open_osfhandle((long)GetStdHandle(STD_INPUT_HANDLE), _O_TEXT), "r");
+	setvbuf(stdout, NULL, _IONBF, 0);
+	setvbuf(stderr, NULL, _IONBF, 0);
+	setvbuf(stdin, NULL, _IONBF, 0);
+
+		// use the console just like a normal one - printf(), getchar(), ...
+	
+
+
+
+
+
+
+
     // Initializes LibOVR, and the Rift
 	ovrInitParams initParams = { ovrInit_RequestVersion, OVR_MINOR_VERSION, NULL, 0, 0 };
 	ovrResult result = ovr_Initialize(&initParams);
     VALIDATE(OVR_SUCCESS(result), "Failed to initialize libOVR.");
 
     VALIDATE(Platform.InitWindow(hinst, L"Oculus Room Tiny (GL)"), "Failed to open window.");
+
+	//if (!found)
+	//{
+	//	return 0;
+	//}
+	//else
+	//{
+	//	Platform.loadModel(vertices, polygons);
+	//}
 
     Platform.Run(MainLoop);
 

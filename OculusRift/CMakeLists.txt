@@ -19,10 +19,13 @@ find_package(Freenect2 REQUIRED)
 file(GLOB_RECURSE SRC "src/*")
 file(GLOB_RECURSE GFX "graphics/*")
 file(GLOB_RECURSE SHD "shaders/*")
+file(GLOB_RECURSE HDR "Common/Win32_GLAppUtil.h")
 
 
 list(APPEND SRC ${GFX})
 list(APPEND SRC ${RES})
+list(APPEND SRC ${SHD})
+list(APPEND SRC ${HDR})
 
 add_executable(${PROJECT_NAME} ${SRC})
 set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
@@ -67,3 +70,15 @@ add_custom_command(
         COMMAND ${CMAKE_COMMAND} -E copy_directory
                 ${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/resources/
                 ${PROJECT_BINARY_DIR}/resources/)
+
+add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+                ${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/meshes/
+                ${PROJECT_BINARY_DIR}/bin/$(Configuration)/meshes/)
+				
+add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+                ${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/meshes/
+                ${PROJECT_BINARY_DIR}/meshes/)

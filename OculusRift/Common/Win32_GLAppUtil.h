@@ -16,6 +16,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  *************************************************************************************/
+//#define GLUT_NO_LIB_PRAGMA
+////##### OpenGL ######
+//#include <GL/glew.h>
+//#define GLFW_INCLUDE_GLU
+////#include <GLFW/glfw3.h>
 
 #ifndef OVR_Win32_GLAppUtil_h
 #define OVR_Win32_GLAppUtil_h
@@ -24,6 +29,11 @@
 #include "Extras/OVR_Math.h"
 #include "OVR_CAPI_GL.h"
 #include <assert.h>
+
+//#include <GL/glew.h>
+#include "ply_parser.cpp"
+
+
 
 // can we use GLEW here, instead of GL/CAPI_GLE.h???
 
@@ -53,6 +63,9 @@ using namespace OVR;
 std::vector<float> pointCloudVerts;
 GLuint pointCloudBuffer;
 
+
+std::vector<Vector3f> meshVerts;
+std::vector<Vector3i> meshPolys;
 
 void setUpPointCloudBuffer()
 {
@@ -372,6 +385,7 @@ struct OGL
         return true;
     }
 
+
     void CloseWindow()
     {
         if (Window)
@@ -647,8 +661,8 @@ struct Model
     Quatf           Rot;
     Matrix4f        Mat;
     int             numVertices, numIndices;
-    Vertex          Vertices[2000]; // Note fixed maximum
-    GLushort        Indices[2000];
+    Vertex          Vertices[20000000]; // Note fixed maximum
+    GLushort        Indices[20000000];
     ShaderFill    * Fill;
     VertexBuffer  * vertexBuffer;
     IndexBuffer   * indexBuffer;
@@ -746,6 +760,13 @@ struct Model
     {
         Matrix4f combined = proj * view * GetMatrix();
 
+		//std::cout << combined.M[0][0] << " " << combined.M[0][1] << " " << combined.M[0][2] << " " << combined.M[0][3] << std::endl;
+		//std::cout << combined.M[1][0] << " " << combined.M[1][1] << " " << combined.M[1][2] << " " << combined.M[1][3] << std::endl;
+		//std::cout << combined.M[2][0] << " " << combined.M[2][1] << " " << combined.M[2][2] << " " << combined.M[2][3] << std::endl;
+		//std::cout << combined.M[3][0] << " " << combined.M[3][1] << " " << combined.M[3][2] << " " << combined.M[3][3] << std::endl;
+
+
+
         glUseProgram(Fill->program);
         glUniform1i(glGetUniformLocation(Fill->program, "Texture0"), 0);
         glUniformMatrix4fv(glGetUniformLocation(Fill->program, "matWVP"), 1, GL_TRUE, (FLOAT*)&combined);
@@ -768,7 +789,7 @@ struct Model
         glVertexAttribPointer(colorLoc, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)OVR_OFFSETOF(Vertex, C));
         glVertexAttribPointer(uvLoc, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)OVR_OFFSETOF(Vertex, U));
 
-        glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, NULL);
+        glDrawElements(GL_LINES, numIndices, GL_UNSIGNED_SHORT, NULL);
 
         glDisableVertexAttribArray(posLoc);
         glDisableVertexAttribArray(colorLoc);
@@ -780,6 +801,44 @@ struct Model
         glUseProgram(0);
     }
 
+	/*void RenderMesh(Matrix4f view, Matrix4f proj)
+	{
+		Matrix4f combined = proj * view * GetMatrix();
+
+		glUseProgram(Fill->program);
+		glUniform1i(glGetUniformLocation(Fill->program, "Texture0"), 0);
+		glUniformMatrix4fv(glGetUniformLocation(Fill->program, "matWVP"), 1, GL_TRUE, (FLOAT*)&combined);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, Fill->texture->texId);
+
+		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferMesh->buffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferMesh->buffer);
+
+		GLuint posLoc = glGetAttribLocation(Fill->program, "Position");
+		GLuint colorLoc = glGetAttribLocation(Fill->program, "Color");
+		GLuint uvLoc = glGetAttribLocation(Fill->program, "TexCoord");
+
+		glEnableVertexAttribArray(posLoc);
+		glEnableVertexAttribArray(colorLoc);
+		glEnableVertexAttribArray(uvLoc);
+
+		glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)OVR_OFFSETOF(Vertex, Pos));
+		glVertexAttribPointer(colorLoc, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)OVR_OFFSETOF(Vertex, C));
+		glVertexAttribPointer(uvLoc, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)OVR_OFFSETOF(Vertex, U));
+
+		glDrawElements(GL_TRIANGLES, numIndicesMesh, GL_UNSIGNED_SHORT, NULL);
+
+		glDisableVertexAttribArray(posLoc);
+		glDisableVertexAttribArray(colorLoc);
+		glDisableVertexAttribArray(uvLoc);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		glUseProgram(0);
+	}*/
+
 
 	void RenderPointCloud(Matrix4f view, Matrix4f proj)
 	{
@@ -788,6 +847,7 @@ struct Model
 		glUseProgram(Fill->program);
 		glUniform1i(glGetUniformLocation(Fill->program, "Texture0"), 0);
 		glUniformMatrix4fv(glGetUniformLocation(Fill->program, "matWVP"), 1, GL_TRUE, (FLOAT*)&combined);
+
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, Fill->texture->texId); // change this texture so that its the colour map from the pointcloud, or just set as red for time being
@@ -821,6 +881,14 @@ struct Scene
     {
         Models[numModels++] = n;
     }
+
+
+
+	//void loadModel()
+	//{
+
+	//}
+
 
     void Render(Matrix4f view, Matrix4f proj)
     {
@@ -876,11 +944,19 @@ struct Scene
             "out     vec4      FragColor;\n"
             "void main()\n"
             "{\n"
-            "   FragColor = oColor * texture2D(Texture0, oTexCoord);\n"
+            "   //FragColor = oColor * texture2D(Texture0, oTexCoord);\n"
+			"	FragColor = vec4(1.0f, 0.6f, 0.2f, 0.1f); \n"
             "}\n";
 
         GLuint    vshader = CreateShader(GL_VERTEX_SHADER, VertexShaderSrc);
         GLuint    fshader = CreateShader(GL_FRAGMENT_SHADER, FragmentShaderSrc);
+
+		int found = parse_ply(meshVerts, meshPolys, "./meshes/brainWhole.ply");
+
+
+
+		//meshVerts = vertices;
+		//meshPolys = polygons;
 
         // Make textures
         ShaderFill * grid_material[4];
@@ -906,10 +982,35 @@ struct Scene
         glDeleteShader(fshader);
 
         // Construct geometry
-        Model * m = new Model(Vector3f(0, 0, 0), grid_material[2]);  // Moving box
-        m->AddSolidColorBox(0, 0, 0, +1.0f, +1.0f, 2.0f, 0xff404040);
+        Model * m = new Model(Vector3f(0.0, 0.0, 0.0), grid_material[2]);  // Moving box
+																	 // make a mesh model from the import
+		//m->numIndices = meshPolys.size() * 3;
+		//m->numVertices = meshVerts.size();
+		for (size_t i = 0; i < meshVerts.size(); i++)
+		{
+			Model::Vertex v;
+			v.Pos = meshVerts[i] / 100.0f;
+			m->AddVertex(v);
+		}
+
+		for (size_t i = 0; i < meshPolys.size(); i++)
+		{
+			m->AddIndex((GLushort)meshPolys[i].x);
+			m->AddIndex((GLushort)meshPolys[i].y);
+			m->AddIndex((GLushort)meshPolys[i].z);
+		}
+		m->AllocateBuffers();
+		Add(m);
+
+
+	/*	m = new Model(Vector3f(0, 0, 0), grid_material[2]);
+        m->AddSolidColorBox(0, 0, 0, +1.0f, +1.0f, 1.0f, 0xff404040);
         m->AllocateBuffers();
         Add(m);
+
+
+
+
 
         m = new Model(Vector3f(0, 0, 0), grid_material[1]);  // Walls
         m->AddSolidColorBox(-10.1f, 0.0f, -20.0f, -10.0f, 4.0f, 20.0f, 0xff808080); // Left Wall
@@ -967,6 +1068,7 @@ struct Scene
 
         m->AllocateBuffers();
         Add(m);
+		*/
     }
 
     Scene() : numModels(0) {}
