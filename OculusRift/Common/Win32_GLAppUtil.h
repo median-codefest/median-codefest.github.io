@@ -25,6 +25,10 @@
 #include "OVR_CAPI_GL.h"
 #include <assert.h>
 
+// can we use GLEW here, instead of GL/CAPI_GLE.h???
+
+#include <vector>
+
 using namespace OVR;
 
 #ifndef VALIDATE
@@ -34,6 +38,51 @@ using namespace OVR;
 #ifndef OVR_DEBUG_LOG
     #define OVR_DEBUG_LOG(x)
 #endif
+
+//---------------------------------------------------------------------------------------
+//	MEDIAN CODE FEST STUFF
+//---------------------------------------------------------------------------------------
+//
+//	Get a static point cloud and copy it to a static draw vertex buffer object. It does not look like this app uses VAO
+//
+//
+//	Or grab a point cloud from the kinect compute shader :)
+//
+//---------------------------------------------------------------------------------------
+
+std::vector<float> pointCloudVerts;
+GLuint pointCloudBuffer;
+
+
+void setUpPointCloudBuffer()
+{
+	pointCloudVerts.resize(512 * 424 * 4); // kinect image width * height * float4 size
+
+	// set up for pointcloud SSBO
+	//glGenBuffers(1, &pointCloudBuffer);
+	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, pointCloudBuffer); // we need a recent version of openGL, get new glew
+	//glBufferData(GL_SHADER_STORAGE_BUFFER, pointCloudVerts.size() * sizeof(float), &pointCloudVerts[0], GL_DYNAMIC_DRAW);
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //---------------------------------------------------------------------------------------
@@ -730,6 +779,36 @@ struct Model
 
         glUseProgram(0);
     }
+
+
+	void RenderPointCloud(Matrix4f view, Matrix4f proj)
+	{
+		Matrix4f combined = proj * view * GetMatrix();
+
+		glUseProgram(Fill->program);
+		glUniform1i(glGetUniformLocation(Fill->program, "Texture0"), 0);
+		glUniformMatrix4fv(glGetUniformLocation(Fill->program, "matWVP"), 1, GL_TRUE, (FLOAT*)&combined);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, Fill->texture->texId); // change this texture so that its the colour map from the pointcloud, or just set as red for time being
+
+
+
+
+		
+															
+															
+															
+															
+															
+		// draw points
+		glPointSize(2.0f);
+		//glBindVertexArray(m_VAO_Pointcloud);
+		glDrawArrays(GL_POINTS, 0, 512 * 424);
+		//glBindVertexArray(0);
+		glUseProgram(0);
+
+	}
 };
 
 //------------------------------------------------------------------------- 
@@ -828,7 +907,7 @@ struct Scene
 
         // Construct geometry
         Model * m = new Model(Vector3f(0, 0, 0), grid_material[2]);  // Moving box
-        m->AddSolidColorBox(0, 0, 0, +1.0f, +1.0f, 1.0f, 0xff404040);
+        m->AddSolidColorBox(0, 0, 0, +1.0f, +1.0f, 2.0f, 0xff404040);
         m->AllocateBuffers();
         Add(m);
 

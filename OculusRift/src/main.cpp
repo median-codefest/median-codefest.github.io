@@ -144,6 +144,8 @@ static bool MainLoop(bool retryCreate)
     // Make scene - can simplify further if needed
     roomScene = new Scene(false);
 
+	//roomScene = new Scene(); do i want to overload this or just add methods....
+
     // FloorLevel will give tracking poses where the floor height is 0
     ovr_SetTrackingOriginType(session, ovrTrackingOrigin_FloorLevel);
 
@@ -210,6 +212,8 @@ static bool MainLoop(bool retryCreate)
 
                 // Render world
                 roomScene->Render(view, proj);
+				// roomScene->RenderPointCloud(view, proj);
+				//roomScene->RenderMesh(view, proj);
 
                 // Avoids an error when calling SetAndClearRenderSurface during next iteration.
                 // Without this, during the next while loop iteration SetAndClearRenderSurface
